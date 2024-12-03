@@ -9,27 +9,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up LaTeX environment
-      uses: dante-ev/latex-action@v2
-      with:
-        root_file: book.tex
-        args: >
-          -interaction=nonstopmode
-          -file-line-error
-          -synctex=1
-          -output-directory=output
+      - name: LaTeX compilation
+        uses: dante-ev/latex-action@2023-A
+        with:
+          root_file: book.tex
+          args: >
+            -interaction=nonstopmode
+            -file-line-error
+            -synctex=1
+            -output-directory=output
 
-    - name: Compile solutions.tex
-      run: |
-        latexmk -pdf -interaction=nonstopmode -file-line-error -output-directory=output solutions.tex
+      - name: Compile solutions.tex
+        run: |
+          latexmk -pdf -interaction=nonstopmode -file-line-error -output-directory=output solutions.tex
 
-    - name: Upload PDFs as artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: compiled-pdfs
-        path: |
-          output/book.pdf
-          output/solutions.pdf
+      - name: Upload PDFs as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-pdfs
+          path: |
+            output/book.pdf
+            output/solutions.pdf
