@@ -12,19 +12,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: LaTeX compilation
+      - name: Compile book.tex
         uses: dante-ev/latex-action@2023-A
         with:
           root_file: book.tex
           args: >
-            -interaction=nonstopmode
-            -file-line-error
-            -synctex=1
+            -pdf
+            -latexoption=-file-line-error
+            -latexoption=-interaction=nonstopmode
             -output-directory=output
 
       - name: Compile solutions.tex
-        run: |
-          latexmk -pdf -interaction=nonstopmode -file-line-error -output-directory=output solutions.tex
+        uses: dante-ev/latex-action@2023-A
+        with:
+          root_file: solutions.tex
+          args: >
+            -pdf
+            -latexoption=-file-line-error
+            -latexoption=-interaction=nonstopmode
+            -output-directory=output
 
       - name: Upload PDFs as artifacts
         uses: actions/upload-artifact@v3
